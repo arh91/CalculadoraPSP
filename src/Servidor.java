@@ -31,12 +31,15 @@ public class Servidor {
                 (new InputStreamReader(clienteConectado.getInputStream()));
 
 
-        //FUNCIONAMIENTO DEL SERVIDOR COMO ECO EN MAYUSCULAS
-        while ((boton = cadenaRecibida.readLine()) != null && (numero = cadenaRecibidaDos.readLine()) != null) {
-            //System.out.println(boton+" DENTRO DEL BUCLE WHILE.");
+        while(boton != null && numero != null) {
+
+            boton = cadenaRecibida.readLine();
+            numero = cadenaRecibida.readLine();
+
 
             switch(boton) {
                 case "CJ":
+                    CJ(numero);
                     cadenaEnviada.println(CJ(numero));
                     break;
                 case "X":
@@ -98,9 +101,19 @@ public class Servidor {
     private static String R(String cadena){
         double precio = Double.parseDouble(cadena);
         double barata = 1.517;
-        double resultado = precio - barata;
-        double resultadoFinal = Math.round(resultado*100d)/100d;
-        return "La diferencia de precio entre la gasolina que ha pagado usted y la gasolina más barata de Vigo es "+String.valueOf(resultadoFinal);
+
+        if(precio>barata) {
+            double resultado = precio - barata;
+            double resultadoFinal = Math.round(resultado * 100d) / 100d;
+            return "La diferencia de precio entre la gasolina que ha pagado usted y la gasolina más barata de Vigo es " + String.valueOf(resultadoFinal) + " euros";
+        }
+        else if(precio == barata) {
+            return "El precio que usted ha pagado coincide con el precio más barato de la gasolina en Vigo";
+        }
+        else{
+            return "El precio que usted ha introducido es erróneo, ya que está por debajo del precio más barato de la gasolina en Vigo (que es 1.517 euros/litro)";
+        }
+
     }
 
 }
