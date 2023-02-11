@@ -45,20 +45,44 @@ public class Cliente {
 
         switch(boton) {
             case "CJ":
-                System.out.println("Introduce un número en metros cuadrados.");
-                numero = entradaUsuario.readLine();
+                while(true) {
+                    System.out.println("Introduce un número en metros cuadrados.");
+                    numero = entradaUsuario.readLine();
+                    if(contieneSoloNumeros(numero)){
+                        break;
+                    }
+                    System.out.println("Introduce sólo caracteres numéricos.");
+                }
                 break;
             case "X":
-                System.out.println("Introduce el número de meses que has trabajado.");
-                numero = entradaUsuario.readLine();
+                while(true) {
+                    System.out.println("Introduce el número de meses que has trabajado.");
+                    numero = entradaUsuario.readLine();
+                    if (contieneSoloNumeros(numero)) {
+                        break;
+                    }
+                    System.out.println("Introduce sólo caracteres numéricos.");
+                }
                 break;
             case "PR":
-                System.out.println("Introduce un número cualquiera.");
-                numero = entradaUsuario.readLine();
+                while(true) {
+                    System.out.println("Introduce un número cualquiera.");
+                    numero = entradaUsuario.readLine();
+                    if (contieneSoloNumeros(numero)) {
+                        break;
+                    }
+                    System.out.println("Introduce sólo caracteres numéricos.");
+                }
                 break;
             case "R":
-                System.out.println("Introduce el precio de gasolina por litro que has pagado.");
-                numero = entradaUsuario.readLine();
+                while(true) {
+                    System.out.println("Introduce el precio de gasolina por litro que has pagado.");
+                    numero = entradaUsuario.readLine();
+                    if (contieneSoloNumerosYPunto(numero) && esDecimal(numero)) {
+                        break;
+                    }
+                    System.out.println("Sólo puedes introducir un número decimal.");
+                }
                 break;
             case "*":
                 break;
@@ -70,7 +94,7 @@ public class Cliente {
             cadenaEnviada.println(boton); // envio cadena al servidor
             cadenaEnviadaDos.println(numero);
             respuestaServidor = cadenaRecibida.readLine(); // recibo cadena del servidor
-            System.out.println(respuestaServidor);
+            System.out.println("RESPUESTA SERVIDOR ---> "+respuestaServidor);
 
             if (respuestaServidor.equals("END!")) { // si la cadena recibida del servidor es END, finaliza conexión con el Servidor y fin de clase Cliente
                 break;
@@ -97,20 +121,44 @@ public class Cliente {
 
             switch(boton) {
                 case "CJ":
-                    System.out.println("Introduce un número en metros cuadrados.");
-                    numero = entradaUsuario.readLine();
+                    while(true) {
+                        System.out.println("Introduce un número en metros cuadrados.");
+                        numero = entradaUsuario.readLine();
+                        if(contieneSoloNumeros(numero)){
+                            break;
+                        }
+                        System.out.println("Introduce sólo caracteres numéricos.");
+                    }
                     break;
                 case "X":
-                    System.out.println("Introduce el número de meses que has trabajado.");
-                    numero = entradaUsuario.readLine();
+                    while(true) {
+                        System.out.println("Introduce el número de meses que has trabajado.");
+                        numero = entradaUsuario.readLine();
+                        if (contieneSoloNumeros(numero)) {
+                            break;
+                        }
+                        System.out.println("Introduce sólo caracteres numéricos.");
+                    }
                     break;
                 case "PR":
-                    System.out.println("Introduce un número cualquiera.");
-                    numero = entradaUsuario.readLine();
+                    while(true) {
+                        System.out.println("Introduce un número cualquiera.");
+                        numero = entradaUsuario.readLine();
+                        if (contieneSoloNumeros(numero)) {
+                            break;
+                        }
+                        System.out.println("Introduce sólo caracteres numéricos.");
+                    }
                     break;
                 case "R":
-                    System.out.println("Introduce el precio de gasolina por litro que has pagado.");
-                    numero = entradaUsuario.readLine();
+                    while(true) {
+                        System.out.println("Introduce el precio de gasolina por litro que has pagado.");
+                        numero = entradaUsuario.readLine();
+                        if (contieneSoloNumerosYPunto(numero) && esDecimal(numero)) {
+                            break;
+                        }
+                        System.out.println("Sólo puedes introducir un número decimal.");
+                    }
                     break;
                 case "*":
                     break;
@@ -126,4 +174,36 @@ public class Cliente {
         Cliente.close();
     }
 
+
+    //Método que devuelve true si una cadena contiene sólo números o false en caso contrario
+    public static boolean contieneSoloNumeros(String cadena) {
+
+        return cadena.matches("[0-9]+");
+    }
+
+    //Método que es true si la cadena contiene números o puntos
+    public static boolean contieneSoloNumerosYPunto(String cadena) {
+        return cadena.matches("[0-9.]+");
+    }
+
+    //Método que devuelve true si la cadena es un número decimal o false en caso contrario
+    public static boolean esDecimal(String cadena){
+        int contador = 0;
+        for (int x = 0; x < cadena.length(); x++) {
+            char c = cadena.charAt(x);
+            if(c=='.'){
+                contador++;
+            }
+            if (c == '.' && x == 0) {
+                return false;
+            }
+            if (c == '.' && x == cadena.length()-1) {
+                return false;
+            }
+        }
+        if(contador == 0){
+            return false;
+        }
+        return true;
+    }
 }

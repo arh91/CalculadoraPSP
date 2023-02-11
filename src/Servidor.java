@@ -27,9 +27,6 @@ public class Servidor {
         BufferedReader cadenaRecibida = new BufferedReader
                 (new InputStreamReader(clienteConectado.getInputStream()));
 
-        BufferedReader cadenaRecibidaDos = new BufferedReader
-                (new InputStreamReader(clienteConectado.getInputStream()));
-
 
         while(boton != null && numero != null) {
 
@@ -105,7 +102,7 @@ public class Servidor {
         if(precio>barata) {
             double resultado = precio - barata;
             double resultadoFinal = Math.round(resultado * 100d) / 100d;
-            return "La diferencia de precio entre la gasolina que ha pagado usted y la gasolina más barata de Vigo es " + String.valueOf(resultadoFinal) + " euros";
+            return "La diferencia de precio entre la gasolina que ha pagado usted y la gasolina más barata de Vigo es " + String.valueOf(resultadoFinal) + " euros/litro";
         }
         else if(precio == barata) {
             return "El precio que usted ha pagado coincide con el precio más barato de la gasolina en Vigo";
