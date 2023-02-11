@@ -10,18 +10,18 @@ public class Cliente {
     public static void main(String[] args) throws IOException {
 
         String Host = "localhost";
-        int Puerto = 6000;// puerto remoto
+        int Puerto = 6000;  //Utilizamos el puerto 6000 para conectar el Cliente con el Servidor
 
-        Socket Cliente = new Socket(Host, Puerto);
+        Socket Cliente = new Socket(Host, Puerto); //Conexión en local a través del puerto 6000
 
-        // CREO FLUJO DE SALIDA AL SERVIDOR
+        // Creo flujo de salida al servidor
         PrintWriter cadenaEnviada = new PrintWriter(Cliente.getOutputStream(), true);
         PrintWriter cadenaEnviadaDos = new PrintWriter(Cliente.getOutputStream(), true);
 
-        // CREO FLUJO DE ENTRADA AL SERVIDOR
+        // Creo flujo de entrada para el servidor
         BufferedReader cadenaRecibida = new BufferedReader(new InputStreamReader(Cliente.getInputStream()));
 
-        // FLUJO PARA ENTRADA ESTANDAR(equivale a un scanner)
+        // Creo flujo para entrada estándar
         BufferedReader entradaUsuario = new BufferedReader(new InputStreamReader(System.in));
 
         String boton = "", numero = "", respuestaServidor = "HOLA";
@@ -36,6 +36,7 @@ public class Cliente {
             System.out.println("PR ---> Se te pedirá introducir un número y la aplicación te devolverá el resultado de dividir dicho número entre el número total de obras publicadas por el famoso escritor Arturo Pérez Reverte.");
             System.out.println("R ---> Se te pedirá introducir el precio de la gasolina que has pagado (precio por litro de gasolina) y la aplicación te indicará cuanto has pagado de más con respecto a la gasolina más barata en la ciudad de Vigo.");
             System.out.println("* ---> Para finalizar la aplicación.");
+
             boton = entradaUsuario.readLine(); // lectura por teclado
 
             if(boton.equals("CJ") || boton.equals("X") || boton.equals("PR") || boton.equals("R") || boton.equals("*")) {
@@ -51,7 +52,11 @@ public class Cliente {
                     if(contieneSoloNumeros(numero)){
                         break;
                     }
-                    System.out.println("Introduce sólo caracteres numéricos.");
+                    if(esDecimal(numero)){
+                        System.out.println("Sólo se puede introducir un número entero.");
+                    }else {
+                        System.out.println("Introduce sólo caracteres numéricos.");
+                    }
                 }
                 break;
             case "X":
@@ -61,7 +66,11 @@ public class Cliente {
                     if (contieneSoloNumeros(numero)) {
                         break;
                     }
-                    System.out.println("Introduce sólo caracteres numéricos.");
+                    if(esDecimal(numero)){
+                        System.out.println("Sólo se puede introducir un número entero.");
+                    }else {
+                        System.out.println("Introduce sólo caracteres numéricos.");
+                    }
                 }
                 break;
             case "PR":
@@ -71,7 +80,11 @@ public class Cliente {
                     if (contieneSoloNumeros(numero)) {
                         break;
                     }
-                    System.out.println("Introduce sólo caracteres numéricos.");
+                    if(esDecimal(numero)){
+                        System.out.println("Sólo se puede introducir un número entero.");
+                    }else {
+                        System.out.println("Introduce sólo caracteres numéricos.");
+                    }
                 }
                 break;
             case "R":
@@ -81,7 +94,7 @@ public class Cliente {
                     if (contieneSoloNumerosYPunto(numero) && esDecimal(numero)) {
                         break;
                     }
-                    System.out.println("Sólo puedes introducir un número decimal.");
+                    System.out.println("Sólo se puede introducir un número decimal.");
                 }
                 break;
             case "*":
@@ -127,7 +140,11 @@ public class Cliente {
                         if(contieneSoloNumeros(numero)){
                             break;
                         }
-                        System.out.println("Introduce sólo caracteres numéricos.");
+                        if(esDecimal(numero)){
+                            System.out.println("Sólo se puede introducir un número entero.");
+                        }else {
+                            System.out.println("Introduce sólo caracteres numéricos.");
+                        }
                     }
                     break;
                 case "X":
@@ -137,7 +154,11 @@ public class Cliente {
                         if (contieneSoloNumeros(numero)) {
                             break;
                         }
-                        System.out.println("Introduce sólo caracteres numéricos.");
+                        if(esDecimal(numero)){
+                            System.out.println("Sólo se puede introducir un número entero.");
+                        }else {
+                            System.out.println("Introduce sólo caracteres numéricos.");
+                        }
                     }
                     break;
                 case "PR":
@@ -147,7 +168,11 @@ public class Cliente {
                         if (contieneSoloNumeros(numero)) {
                             break;
                         }
-                        System.out.println("Introduce sólo caracteres numéricos.");
+                        if(esDecimal(numero)){
+                            System.out.println("Sólo se puede introducir un número entero.");
+                        }else {
+                            System.out.println("Introduce sólo caracteres numéricos.");
+                        }
                     }
                     break;
                 case "R":
@@ -157,7 +182,7 @@ public class Cliente {
                         if (contieneSoloNumerosYPunto(numero) && esDecimal(numero)) {
                             break;
                         }
-                        System.out.println("Sólo puedes introducir un número decimal.");
+                        System.out.println("Sólo se puede introducir un número decimal.");
                     }
                     break;
                 case "*":
@@ -169,9 +194,10 @@ public class Cliente {
 
         cadenaEnviada.close();
         cadenaRecibida.close();
-        System.out.println("Fin del programa... ");
         entradaUsuario.close();
         Cliente.close();
+
+        System.out.println("FIN DEL PROGRAMA... ");
     }
 
 
@@ -181,10 +207,13 @@ public class Cliente {
         return cadena.matches("[0-9]+");
     }
 
+
     //Método que es true si la cadena contiene números o puntos
     public static boolean contieneSoloNumerosYPunto(String cadena) {
+
         return cadena.matches("[0-9.]+");
     }
+
 
     //Método que devuelve true si la cadena es un número decimal o false en caso contrario
     public static boolean esDecimal(String cadena){

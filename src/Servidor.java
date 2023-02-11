@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -10,20 +11,20 @@ public class Servidor {
     public static void main(String[] args) throws IOException {
         // TODO Auto-generated method stub
 
-        int numeroPuerto = 6000;// Puerto
-        ServerSocket servidor = new ServerSocket(numeroPuerto);
+        int numeroPuerto = 6000;  //Utilizamos el puerto 6000 para conectar Servidor con Cliente
+        ServerSocket servidor = new ServerSocket(numeroPuerto);  //Asignamos el puerto 6000 al socket
 
         String boton="", numero="";
         System.out.println("Esperando conexion...");
 
-        Socket clienteConectado = servidor.accept();
+        Socket clienteConectado = servidor.accept(); //Se establece con éxito la conexión entre el Servidor y el Cliente
         System.out.println("Cliente conectado...");
 
-        // CREO FLUJO DE SALIDA AL CLIENTE
+        // Creo flujo de salida al Cliente
         PrintWriter cadenaEnviada = new PrintWriter
                 (clienteConectado.getOutputStream(),true);
 
-        // CREO FLUJO DE ENTRADA DEL CLIENTE
+        // Creo flujo de entrada del Cliente
         BufferedReader cadenaRecibida = new BufferedReader
                 (new InputStreamReader(clienteConectado.getInputStream()));
 
@@ -48,7 +49,7 @@ public class Servidor {
                 case "R":
                     cadenaEnviada.println(R(numero));
                     break;
-                case "*":
+                case "*":     //Si el botón recibido del Cliente es * le enviamos un END para que se cierre el Cliente, y luego procedemos a cerrar el Servidor
                     cadenaEnviada.println("END!");
                     break;
                 default:
@@ -60,22 +61,26 @@ public class Servidor {
 
         }
 
-        // CERRAR STREAMS Y SOCKETS
         System.out.println("Cerrando conexion...");
+
+        //Cerramos Streams y Sockets
+
         cadenaRecibida.close();
         cadenaEnviada.close();
         clienteConectado.close();
         servidor.close();
-    }//main
+    }
 
 
-
+    //Método que recibe un número en metros cuadrados y calcula a cuantos campos de fútbol equivale
     private static String CJ(String cadena){
         double resultado = Double.parseDouble(cadena)/7140;
         double resultadoFinal = Math.round(resultado*100d)/100d;
         return "La superficie en metros cuadrados introducida por usted equivale a "+String.valueOf(resultadoFinal)+" campos de fútbol.";
     }
 
+
+    //Método que recibe un número de meses trabajados y calcula cuántos meses quedan por cotizar para llegar a 450 meses (que da derecho a la pensión completa)
     private static String X(String cadena){
         int meses = Integer.parseInt(cadena);
         int resultado = 0;
@@ -87,6 +92,8 @@ public class Servidor {
         }
     }
 
+
+    //Método que recibe un número y lo divide entre el número total de obras de Pérez Reverte.
     private static String PR(String cadena){
         double cociente = (Double.parseDouble(cadena)/51);
         double resultado = Math.round(cociente*100d)/100d;
@@ -95,6 +102,7 @@ public class Servidor {
         return resultadoCadena;
     }
 
+    //Método que recibe un precio por litro de gasolina y calcula la diferencia respecto al precio más barato de la gasolina en toda la ciudad de Vigo
     private static String R(String cadena){
         double precio = Double.parseDouble(cadena);
         double barata = 1.517;
